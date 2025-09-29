@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Streetwear Store</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+    }
+
+    /* HEADER */
+    header {
+      background: #111;
+      color: #fff;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 22px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    nav {
+      margin-top: 10px;
+      flex-basis: 100%;
+      text-align: center;
+    }
+    nav a {
+      color: #fff;
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    nav a:hover {
+      color: #ff4c4c;
+    }
+
+    /* BANNER */
+    .banner {
+      background: url("https://wallpaper-house.com/data/out/12/wallpaper2you_538511.jpg") no-repeat center center/cover;
+      height: 50vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      text-align: center;
+      padding: 0 15px;
+    }
+    .banner h2 {
+      font-size: 28px;
+      background: rgba(0,0,0,0.6);
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    /* PRODUTOS */
+    .produtos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 15px;
+      padding: 20px;
+    }
+    .produto {
+      background: #fff;
+      padding: 12px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+    .produto:hover {
+      transform: scale(1.03);
+    }
+    .produto img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    .produto h3 {
+      font-size: 16px;
+      margin: 8px 0 5px;
+    }
+    .produto p {
+      font-weight: bold;
+      color: #ff4c4c;
+      margin-bottom: 12px;
+      font-size: 15px;
+    }
+    .btn-comprar {
+      display: inline-block;
+      padding: 8px 12px;
+      background: #ff4c4c;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 14px;
+      transition: background 0.3s;
+    }
+    .btn-comprar:hover {
+      background: #e63b3b;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #111;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+    }
+    footer a {
+      color: #ff4c4c;
+      text-decoration: none;
+      margin: 0 8px;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* RESPONSIVIDADE EXTRA */
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 18px;
+      }
+      .banner h2 {
+        font-size: 22px;
+      }
+      .produto h3 {
+        font-size: 14px;
+      }
+      .produto p {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Streetwear Store</h1>
+    <nav>
+      <a href="#">Início</a>
+      <a href="#">Coleção</a>
+      <a href="#">Sobre</a>
+      <a href="#">Contato</a>
+    </nav>
+  </header>
+
+  <section class="banner">
+    <h2>Moda StreetWear com estilo!</h2>
+  </section>
+
+  <section class="produtos">
+    <div class="produto">
+      <img src="https://via.placeholder.com/300x300" alt="Camiseta Oversized">
+      <h3>Camiseta Oversized</h3>
+      <p>R$ 119,90</p>
+      <a class="btn-comprar" href="https://wa.me/5547991890250?text=Olá! Quero comprar a Camiseta Oversized por R$119,90." target="_blank">Comprar</a>
+    </div>
+
+    <div class="produto">
+      <img src="https://via.placeholder.com/300x300" alt="Moletom Street">
+      <h3>Moletom Street</h3>
+      <p>R$ 189,90</p>
+      <a class="btn-comprar" href="https://wa.me/5547991890250?text=Olá! Quero comprar o Moletom Street por R$189,90." target="_blank">Comprar</a>
+    </div>
+
+    <div class="produto">
+      <img src="https://via.placeholder.com/300x300" alt="Boné Classic">
+      <h3>Boné Classic</h3>
+      <p>R$ 89,90</p>
+      <a class="btn-comprar" href="https://wa.me/5547991890250?text=Olá! Quero comprar o Boné Classic por R$89,90." target="_blank">Comprar</a>
+    </div>
+
+    <div class="produto">
+      <img src="https://via.placeholder.com/300x300" alt="Jaqueta Cargo">
+      <h3>Jaqueta Cargo</h3>
+      <p>R$ 249,90</p>
+      <a class="btn-comprar" href="https://wa.me/5547991890250?text=Olá! Quero comprar a Jaqueta Cargo por R$249,90." target="_blank">Comprar</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Streetwear Store - Todos os direitos reservados</p>
+    <p>Siga-nos:
+      <a href="https://www.instagram.com/streetwearstoretimbo/" target="_blank">Instagram</a> |
+      <a href="#">Facebook</a> |
+      <a href="#">TikTok</a>
+    </p>
+  </footer>
+
+</body>
+</html>
