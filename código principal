@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Streetwear Store</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+    }
+
+    /* HEADER */
+    header {
+      background: #111;
+      color: #fff;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 22px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    /* BOTÃO MENU (hamburger) */
+    .menu-btn {
+      font-size: 24px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: #fff;
+    }
+
+    /* MENU LATERAL */
+    .side-menu {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #111;
+      overflow-x: hidden;
+      transition: 0.3s;
+      padding-top: 60px;
+      z-index: 1000;
+    }
+    .side-menu a {
+      padding: 12px 20px;
+      text-decoration: none;
+      font-size: 18px;
+      color: #fff;
+      display: block;
+      transition: 0.2s;
+    }
+    .side-menu a:hover {
+      background: #ff4c4c;
+    }
+    .side-menu .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 25px;
+      font-size: 30px;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    /* BANNER */
+    .banner {
+      background: url("https://wallpaper-house.com/data/out/12/wallpaper2you_538511.jpg") no-repeat center center/cover;
+      height: 50vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      text-align: center;
+      padding: 0 15px;
+    }
+    .banner h2 {
+      font-size: 28px;
+      background: rgba(0,0,0,0.6);
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    /* PRODUTOS */
+    .produtos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    .produto {
+      background: #fff;
+      padding: 12px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+    .produto:hover {
+      transform: scale(1.03);
+    }
+    .produto img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    .produto h3 {
+      font-size: 16px;
+      margin: 8px 0 5px;
+    }
+    .produto p {
+      font-weight: bold;
+      color: #ff4c4c;
+      margin-bottom: 12px;
+      font-size: 15px;
+    }
+    .btn-comprar {
+      display: inline-block;
+      padding: 8px 12px;
+      background: #25d366; /* cor do WhatsApp */
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 14px;
+      transition: background 0.3s;
+    }
+    .btn-comprar:hover {
+      background: #1ebe57;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #111;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+    }
+    footer a {
+      color: #ff4c4c;
+      text-decoration: none;
+      margin: 0 8px;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* RESPONSIVIDADE EXTRA */
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 18px;
+      }
+      .banner h2 {
+        font-size: 22px;
+      }
+      .produto h3 {
+        font-size: 14px;
+      }
+      .produto p {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MENU LATERAL -->
+  <div id="sideMenu" class="side-menu">
+    <span class="close-btn" onclick="closeMenu()">&times;</span>
+    <a href="#">Início</a>
+    <a href="#">Coleção</a>
+    <a href="#">Sobre</a>
+    <a href="#">Contato</a>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <h1>Streetwear Store</h1>
+    <button class="menu-btn" onclick="openMenu()">☰</button>
+  </header>
+
+  <!-- BANNER -->
+  <section class="banner">
+    <h2>Moda StreetWear com estilo!</h2>
+  </section>
+
+  <!-- PRODUTOS (12 ITENS) -->
+  <section class="produtos">
+    <div class="produto">
+      <img src="https://cdn.awsli.com.br/2500x2500/2571/2571134/produto/292901751/unbroken-offwhite-mffq57lfll.jpg" alt="Camisa 1">
+      <h3>Camisa Unbroken</h3>
+      <p>R$ 119,90</p>
+      <a class="btn-comprar" href="https://wa.me/5547991890250?text=Olá,+gostaria+de+comprar+a+Camisa+Unbroken" target="_blank">Comprar</a>
+      <br><br>
+      <a class="btn-detalhes" href="camisa1.html">Ver detalhes</a>
+    </div>
+    <div class="produto">
+      <img src="https://via.placeholder.com/300x300" alt="Produto 2">
+      <h3>Produto 2</h3>
+      <p>R$ 149,90</p>
+      <a class="btn-comprar" href="https://wa.me/5547999999999?text=Olá,+gostaria+de+comprar+o+Produto+2" target="_blank">Comprar</a>
+    </div>
+    <div class="produto">
+      <img src="https://via.placeholder.com/300x300" alt="Produto 3">
+      <h3>Produto 3</h3>
+      <p>R$ 89,90</p>
+      <a class="btn-comprar" href="https://wa.me/5547999999999?text=Olá,+gostaria+de+comprar+o+Produto+3" target="_blank">Comprar</a>
+    </div>
+    <div class="produto">
+      <img src="https://via.placeholder.com/300x300" alt="Produto 4">
+      <h3>Produto 4</h3>
+      <p>R$ 199,90</p>
+      <a class="btn-comprar" href="https://wa.me/5547999999999?text=Olá,+gostaria+de+comprar+o+Produto+4" target="_blank">Comprar</a>
+    </div>
+    <div class="produto">
+      <img src="https://via.placeholder.com/300x300" alt="Produto 5">
+      <h3>Produto 5</h3>
+      <p>R$ 159,90</p>
+      <a class="btn-comprar" href="https://wa.me/5547999999999?text=Olá,+gostaria+de+comprar+o+Produto+5" target="_blank">Comprar</a>
+    </div>
+    <div class="produto">
+      <img src="https://via.placeholder.com/300x300" alt="Produto 6">
+      <h3>Produto 6</h3>
+      <p>R$ 179,90</p>
+      <a class="btn-comprar" href="https://wa.me/5547999999999?text=Olá,+gostaria+de+comprar+o+Produto+6" target="_blank">Comprar</a>
+    </div>
+    <div class="produto">
+      <img src="https://via.placeholder.com/300x300" alt="Produto 7">
+      <h3>Produto 7</h3>
+      <p>R$ 209,90</p>
+      <a class="btn-comprar" href="https://wa.me/5547999999999?text=Olá,+gostaria+de+comprar+o+Produto+7" target="_blank">Comprar</a>
+    </div>
+    <div class="produto">
+      <img src="https://via.placeholder.com/300x300" alt="Produto 8">
+      <h3>Produto 8</h3>
+      <p>R$ 139,90</p>
+      <a class="btn-comprar" href="https://wa.me/5547999999999?text=Olá,+gostaria+de+comprar+o+Produto+8" target="_blank">Comprar</a>
+    </div>
+    <div class="produto">
+      <img src="https://via.placeholder.com/300x300" alt="Produto 9">
+      <h3>Produto 9</h3>
+      <p>R$ 229,90</p>
+      <a class="btn-comprar" href="https://wa.me/5547999999999?text=Olá,+gostaria+de+comprar+o+Produto+9" target="_blank">Comprar</a>
+    </div>
+    <div class="produto">
+      <img src="https://via.placeholder.com/300x300" alt="Produto 10">
+      <h3>Produto 10</h3>
+      <p>R$ 99,90</p>
+      <a class="btn-comprar" href="https://wa.me/5547999999999?text=Olá,+gostaria+de+comprar+o+Produto+10" target="_blank">Comprar</a>
+    </div>
+    <div class="produto">
+      <img src="https://via.placeholder.com/300x300" alt="Produto 11">
+      <h3>Produto 11</h3>
+      <p>R$ 249,90</p>
+      <a class="btn-comprar" href="https://wa.me/5547999999999?text=Olá,+gostaria+de+comprar+o+Produto+11" target="_blank">Comprar</a>
+    </div>
+    <div class="produto">
+      <img src="https://via.placeholder.com/300x300" alt="Produto 12">
+      <h3>Produto 12</h3>
+      <p>R$ 189,90</p>
+      <a class="btn-comprar" href="https://wa.me/5547999999999?text=Olá,+gostaria+de+comprar+o+Produto+12" target="_blank">Comprar</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 Streetwear Store - Todos os direitos reservados</p>
+    <p>Siga-nos:
+      <a href="https://www.instagram.com/streetwearstoretimbo/" target="_blank">Instagram</a> |
+      <a href="#">Facebook</a> |
+      <a href="#">TikTok</a>
+    </p>
+  </footer>
+
+  <!-- SCRIPT MENU -->
+  <script>
+    function openMenu() {
+      document.getElementById("sideMenu").style.width = "250px";
+    }
+    function closeMenu() {
+      document.getElementById("sideMenu").style.width = "0";
+    }
+  </script>
+
+</body>
+</html>
