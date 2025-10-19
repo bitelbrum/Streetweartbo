@@ -1,294 +1,632 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Streetwear Store</title>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#0d0d0d" />
   <style>
-    body {
+    :root{
+      --bg-900: #0b0b0b;
+      --bg-800: #0b0b0b;
+      --card: #181818;
+      --muted: #bfbfbf;
+      --accent: #7d2ae8; /* exato (desktop) */
+      --accent-600: #5a1ebd;
+      /* rgb da cor roxa atual — usado para sombras/rgba que precisam acompanhar a variação mobile */
+      --accent-rgb: 125,42,232;
+      --glass: rgba(255,255,255,0.03);
+      --radius: 14px;
+      --transition: 240ms cubic-bezier(.2,.9,.3,1);
+      --max-width: 1200px;
+    }
+
+    /* === MOBILE: roxo mais vivo apenas em telas pequenas === */
+    @media (max-width: 768px) {
+      :root{
+        --accent: #9a3eff; /* roxo mais vivo no mobile */
+        --accent-600: #6c1fd1;
+        --accent-rgb: 154,62,255; /* rgb de #9a3eff */
+      }
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family: 'Montserrat', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background: linear-gradient(180deg, var(--bg-900), var(--bg-800));
+      color: var(--accent); /* use a variável para que mobile também reflita o novo tom */
+      scroll-behavior: smooth;
+      line-height:1.4;
+      padding-bottom:120px;
+    }
+
+    .container{max-width:var(--max-width);margin:0 auto;padding:28px 20px;}
+
+    header{
+      position:sticky;top:0;z-index:900;background: linear-gradient(180deg, rgba(11,11,11,0.9), rgba(11,11,11,0.7));
+      backdrop-filter: blur(6px);
+      padding:14px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 6px 18px rgba(0,0,0,0.6);
+    }
+    .brand{display:flex;align-items:center;gap:14px}
+
+    /* === LOGO SWS: ROXO PULSANTE SÓLIDO (SEM FADE) === */
+    .logo-mark{
+      width:44px;
+      height:44px;
+      border-radius:10px;
+      background: var(--accent);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:800;
+      color:#fff;
+      text-shadow: 0 0 12px var(--accent), 0 0 25px var(--accent);
+      cursor:pointer;
+      user-select:none;
+      box-shadow: 0 0 20px rgba(var(--accent-rgb),0.7);
+      animation: pulseRoxo 2s ease-in-out infinite;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    @keyframes pulseRoxo{
+      0%   { transform: scale(1); box-shadow: 0 0 16px rgba(var(--accent-rgb),0.6); }
+      50%  { transform: scale(1.06); box-shadow: 0 0 36px rgba(var(--accent-rgb),1); }
+      100% { transform: scale(1); box-shadow: 0 0 16px rgba(var(--accent-rgb),0.6); }
+    }
+
+    .logo-mark:hover{
+      transform: scale(1.08);
+      box-shadow: 0 0 48px rgba(var(--accent-rgb),1);
+    }
+
+    .brand h1{margin:0;font-size:18px;letter-spacing:2px;text-transform:uppercase;font-weight:700}
+    .brand small{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:-4px}
+    .menu-btn{font-size:22px;cursor:pointer;background:none;border:none;color:inherit}
+
+    .side-menu{height:100%;width:0;position:fixed;top:0;left:0;background:linear-gradient(180deg, rgba(15,15,15,0.98), rgba(10,10,10,0.98));overflow:hidden;transition:width 320ms ease;z-index:1000;padding-top:76px;border-right:1px solid rgba(255,255,255,0.02)}
+    .side-menu.open{width:78%;max-width:320px}
+    .side-menu a{display:block;padding:14px 22px;color:#eaeaea;text-decoration:none;font-weight:600;border-left:3px solid transparent;Transition:all var(--transition)}
+    .side-menu a:hover{background:linear-gradient(90deg, rgba(var(--accent-rgb),0.06), transparent);border-left-color:var(--accent)}
+    .close-btn{position:absolute;top:18px;right:18px;font-size:26px;cursor:pointer;color:var(--muted)}
+
+    .hero{height:54vh;min-height:320px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;background-size:cover;background-position:center center;filter:brightness(.35);transition:transform 800ms ease}
+    .hero-inner{position:relative;z-index:2;text-align:center;padding:0 20px}
+    .hero h2{font-size:40px;margin:0;text-transform:uppercase;letter-spacing:2px}
+    .hero p{Color:var(--muted);margin-top:10px}
+
+    /* manter .btn padrão (não substituímos todos os .btn para evitar efeitos indesejados) */
+    .btn{display:inline-block;padding:10px 16px;background:var(--accent);color:#fff;border-radius:10px;font-weight:700;text-decoration:none;transition:transform var(--transition),box-shadow var(--transition);box-shadow:0 8px 30px rgba(var(--accent-rgb),0.12)}
+    .btn:hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(var(--accent-rgb),0.18)}
+
+    .secao{max-width:var(--max-width);margin:28px auto;padding:24px 20px}
+    .secao h2{font-size:20px;margin:0 0 18px 0;text-transform:uppercase;border-left:4px solid var(--accent);padding-left:12px}
+    .produtos{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px}
+
+    /* === cards produtos: mantidos, garantindo spacing correto === */
+    .produto{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px;
+      padding:12px;
+      text-align:center;
+      box-shadow:0 6px 20px rgba(0,0,0,0.45);
+      position:relative;
+      overflow:hidden;
+      cursor:pointer;
+      transition:transform var(--transition),box-shadow var(--transition), filter 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: inset 0 0 8px rgba(255,255,255,0.03), 0 6px 20px rgba(0,0,0,0.45);
+      opacity: 0;
+      transform: translateY(16px);
+    }
+
+    .produto.visible{
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 520ms cubic-bezier(.2,.9,.3,1), transform 520ms cubic-bezier(.2,.9,.3,1);
+    }
+
+    .produto:hover{
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 14px 40px rgba(0,0,0,0.6);
+      filter: brightness(1.06);
+    }
+
+    .produto img{width:100%;height:220px;object-fit:cover;border-radius:10px;display:block;transition:transform 380ms ease,filter 380ms ease}
+    .produto:hover img{transform: scale(1.05);filter: brightness(1.08);}
+
+    .info{padding:10px 6px}
+    .info h3{margin:8px 0 4px;font-size:15px}
+    /* campo "valor" em branco conforme solicitado */
+    .info p {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      color: #333;
-    }
-
-    /* HEADER */
-    header {
-      background: #111;
-      color: #fff;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 22px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
-
-    /* BOTÃO MENU (hamburger) */
-    .menu-btn {
-      font-size: 24px;
-      cursor: pointer;
-      background: none;
-      border: none;
+      font-weight: 700;
       color: #fff;
     }
 
-    /* MENU LATERAL */
-    .side-menu {
-      height: 100%;
-      width: 0;
-      position: fixed;
-      top: 0;
-      left: 0;
-      background-color: #111;
-      overflow-x: hidden;
-      transition: 0.3s;
-      padding-top: 60px;
-      z-index: 1000;
-    }
-    .side-menu a {
-      padding: 12px 20px;
-      text-decoration: none;
-      font-size: 18px;
-      color: #fff;
-      display: block;
-      transition: 0.2s;
-    }
-    .side-menu a:hover {
-      background: #ff4c4c;
-    }
-    .side-menu .close-btn {
-      position: absolute;
-      top: 15px;
-      right: 25px;
-      font-size: 30px;
-      color: #fff;
-      cursor: pointer;
-    }
+    .overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0.0), rgba(0,0,0,0.62));display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;opacity:0;transform:scale(.96);transition:opacity 220ms ease,transform 220ms ease;pointer-events:none}
+    .produto.active .overlay{opacity:1;transform:scale(1);pointer-events:auto}
+    .overlay .btn{min-width:140px}
 
-    /* BANNER */
-    .banner {
-      background: url("https://wallpaper-house.com/data/out/12/wallpaper2you_538511.jpg") no-repeat center center/cover;
-      height: 50vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      text-align: center;
-      padding: 0 15px;
+    /* === AQUI: tornamos o botão "Ver detalhes" (overlay .btn) igual ao estilo do botão Comprar (btn-modal) === */
+    .overlay .btn {
+      display:inline-block;
+      background: var(--accent);
+      color:#fff;
+      padding:10px 16px;
+      border-radius:10px;
+      font-weight:700;
+      text-decoration:none;
+      border:none;                 /* remove linha/borda */
+      cursor:pointer;
+      box-shadow:0 0 18px rgba(var(--accent-rgb),0.7);
+      transition: transform .18s ease, box-shadow .18s ease;
+      animation: pulseRoxo 2s ease-in-out infinite;
     }
-    .banner h2 {
-      font-size: 28px;
-      background: rgba(0,0,0,0.6);
-      padding: 15px;
-      border-radius: 8px;
-    }
-
-    /* PRODUTOS */
-    .produtos {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-      padding: 20px;
-    }
-    .produto {
-      background: #fff;
-      padding: 12px;
-      border-radius: 10px;
-      text-align: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
-    }
-    .produto:hover {
+    .overlay .btn:hover {
       transform: scale(1.03);
-    }
-    .produto img {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-    }
-    .produto h3 {
-      font-size: 16px;
-      margin: 8px 0 5px;
-    }
-    .produto p {
-      font-weight: bold;
-      color: #ff4c4c;
-      margin-bottom: 12px;
-      font-size: 15px;
-    }
-    .btn-comprar {
-      display: inline-block;
-      padding: 8px 12px;
-      background: #25d366; /* cor do WhatsApp */
-      color: #fff;
-      text-decoration: none;
-      border-radius: 6px;
-      font-weight: bold;
-      font-size: 14px;
-      transition: background 0.3s;
-    }
-    .btn-comprar:hover {
-      background: #1ebe57;
+      box-shadow: 0 0 30px rgba(var(--accent-rgb),0.95);
     }
 
-    /* FOOTER */
-    footer {
-      background: #111;
-      color: #fff;
-      text-align: center;
-      padding: 20px;
-      font-size: 14px;
+    /* ---------------- MODAL (alterada) ---------------- */
+    #modalDetalhes{
+      display:none;
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,0.75);
+      z-index:9999;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
-    footer a {
-      color: #ff4c4c;
-      text-decoration: none;
-      margin: 0 8px;
-    }
-    footer a:hover {
-      text-decoration: underline;
+    #modalDetalhes.active{display:flex}
+
+    .modal-card{
+      background: linear-gradient(180deg, var(--card), #0f0f0f);
+      padding:18px;
+      border-radius:12px;
+      max-width:520px;
+      width:100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      animation: fadeZoom .26s ease;
+      position:relative;
+      overflow:hidden; /* evita conteúdo vazar */
+      border: 1px solid rgba(var(--accent-rgb),0.12);
+      z-index: 10000;
     }
 
-    /* RESPONSIVIDADE EXTRA */
-    @media (max-width: 480px) {
-      header h1 {
-        font-size: 18px;
-      }
-      .banner h2 {
-        font-size: 22px;
-      }
-      .produto h3 {
-        font-size: 14px;
-      }
-      .produto p {
-        font-size: 14px;
-      }
+    /* small safe glow via box-shadow (no pseudo elements that break layout) */
+    .modal-card .glow {
+      position:absolute;inset:0;pointer-events:none;
+      box-shadow: 0 0 40px rgba(var(--accent-rgb),0.12) inset;
+      z-index:1;
     }
+
+    .modal-slider{position:relative;border-radius:10px;overflow:hidden;margin-bottom:12px;background:#0b0b0b;z-index:2}
+    .modal-slides{display:flex;transition:transform .36s cubic-bezier(.2,.9,.3,1);will-change:transform}
+    .modal-slides img{
+      height:360px;object-fit:contain;display:block;
+      width:100%;flex:0 0 auto;
+      filter: drop-shadow(0 0 10px rgba(var(--accent-rgb),0.28));
+    }
+
+    .modal-arrow{
+      position:absolute;top:50%;transform:translateY(-50%);
+      background:rgba(0,0,0,0.45);border:none;color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;z-index:3;
+    }
+    .modal-arrow.left{left:10px}
+    .modal-arrow.right{right:10px}
+    .modal-arrow:hover{background:rgba(var(--accent-rgb),0.28);box-shadow:0 0 12px rgba(var(--accent-rgb),0.45)}
+
+    .modal-dots{display:flex;gap:6px;justify-content:center;margin-top:8px}
+    .modal-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.12);transition:transform .18s ease, box-shadow .18s ease}
+    .modal-dot.active{background:var(--accent);box-shadow:0 0 10px rgba(var(--accent-rgb),0.7);transform:scale(1.2)}
+
+    .modal-close{
+      position:absolute;top:12px;right:12px;font-size:26px;color:#ffffff;background:rgba(0,0,0,0.5);border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer; z-index:10002;transition:background .2s ease, transform .2s ease;
+    }
+    .modal-close:hover{background:rgba(var(--accent-rgb),0.25);transform:scale(1.05)}
+
+    .modal-card h3{margin:8px 0 6px 0;font-size:18px;text-align:center;color:var(--accent);text-shadow:0 0 8px rgba(var(--accent-rgb),0.6);z-index:2}
+    .modal-card p{margin:6px 0;color:#ddd;text-align:center;z-index:2}
+
+    /* === linha branca sólida 100% apenas abaixo da descrição dentro do modal === */
+    #modalDescricao{
+      padding-bottom:10px;
+      margin-bottom:12px;
+      border-bottom: 1px solid #ffffff; /* LINHA SOLIDA */
+      color: #ddd;
+      text-align:center;
+      z-index:2;
+    }
+
+    /* === botão Comprar no modal: roxo pulsante sólido (sem fade) === */
+    .btn-modal, #modalComprar {
+      display:inline-block;
+      background: var(--accent);
+      color:#fff;
+      padding:10px 16px;
+      border-radius:10px;
+      font-weight:700;
+      text-decoration:none;
+      border:none;
+      cursor:pointer;
+      box-shadow:0 0 18px rgba(var(--accent-rgb),0.7);
+      transition: transform .18s ease, box-shadow .18s ease;
+      animation: pulseRoxo 2s ease-in-out infinite;
+      z-index:2;
+    }
+    .btn-modal:hover, #modalComprar:hover{ transform: scale(1.03); box-shadow: 0 0 30px rgba(var(--accent-rgb),0.95); }
+
+    @keyframes fadeZoom{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
+
+    /* ----------------- FIM DA PARTE ALTERADA (modal + logo + buttons) ----------------- */
+
+    #adminPanel{position:fixed;right:20px;bottom:80px;background:linear-gradient(180deg,#111,#0b0b0b);padding:16px;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,0.6);width:320px;max-height:70vh;overflow:auto;display:none;z-index:2000;border:1px solid rgba(var(--accent-rgb),0.08)}
+
+    .loader{display:inline-block;border-radius:50%;width:36px;height:36px;border:4px solid rgba(255,255,255,0.08);border-top-color:var(--accent);animation:spin 900ms linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    footer{background:transparent;padding:36px 20px 60px;color:var(--muted);text-align:center}
+    footer a{color:var(--accent);text-decoration:none;font-weight:700}
+
+    @media (max-width: 768px){
+      .produtos{grid-template-columns:repeat(2,1fr)}
+      .hero h2{font-size:26px}
+      .hero{height:42vh}
+      .modal-slides img{height:260px}
+    }
+
+    /* admin inputs small adjustments (keep look) */
+    #adminContent input,#adminContent select,#adminContent textarea{width:100%;padding:8px;border-radius:8px;border:none;margin-bottom:8px;background:#0f0f0f;color:#ddd;resize:vertical}
   </style>
 </head>
 <body>
-
-  <!-- MENU LATERAL -->
-  <div id="sideMenu" class="side-menu">
+  <nav id="sideMenu" class="side-menu" aria-hidden="true">
     <span class="close-btn" onclick="closeMenu()">&times;</span>
     <a href="#">Início</a>
-    <a href="#">Coleção</a>
-    <a href="#">Sobre</a>
-    <a href="#">Contato</a>
-  </div>
+    <a href="#camisas">Camisas</a>
+    <a href="#casacos">Casacos</a>
+    <a href="#bones">Bonés</a>
+    <a href="#calcas">Calças</a>
+    <a href="#contato" onclick="closeMenu()">Contato</a>
+  </nav>
 
-  <!-- HEADER -->
   <header>
-    <h1>Streetwear Store</h1>
-    <button class="menu-btn" onclick="openMenu()">☰</button>
+    <div class="brand container" style="justify-content:space-between;">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="logo-mark" id="logoSWS">SWS</div>
+        <div>
+          <h1>Streetwear Store</h1>
+          <small>Moda com estilo</small>
+        </div>
+      </div>
+      <button class="menu-btn" onclick="openMenu()">☰</button>
+    </div>
   </header>
 
-  <!-- BANNER -->
-  <section class="banner">
-    <h2>Moda StreetWear com estilo!</h2>
-  </section>
-
-  <!-- PRODUTOS (12 ITENS) -->
-  <section class="produtos">
-    <div class="produto">
-      <img src="https://cdn.awsli.com.br/2500x2500/2571/2571134/produto/292901751/unbroken-offwhite-mffq57lfll.jpg" alt="Camisa 1">
-      <h3>Camisa Unbroken</h3>
-      <p>R$ 119,90</p>
-      <a class="btn-comprar" href="https://wa.me/5547991890250?text=Olá,+gostaria+de+comprar+a+Camisa+Unbroken" target="_blank">Comprar</a>
-      <br><br>
-      <a class="btn-detalhes" href="camisa1.html">Ver detalhes</a>
-    </div>
-    <div class="produto">
-      <img src="https://via.placeholder.com/300x300" alt="Produto 2">
-      <h3>Produto 2</h3>
-      <p>R$ 139,90</p>
-      <a class="btn-comprar" href="https://wa.me/5547999999999?text=Olá,+gostaria+de+comprar+o+Produto+2" target="_blank">Comprar</a>
-    </div>
-    <div class="produto">
-      <img src="https://via.placeholder.com/300x300" alt="Produto 3">
-      <h3>Produto 3</h3>
-      <p>R$ 89,90</p>
-      <a class="btn-comprar" href="https://wa.me/5547999999999?text=Olá,+gostaria+de+comprar+o+Produto+3" target="_blank">Comprar</a>
-    </div>
-    <div class="produto">
-      <img src="https://via.placeholder.com/300x300" alt="Produto 4">
-      <h3>Produto 4</h3>
-      <p>R$ 199,90</p>
-      <a class="btn-comprar" href="https://wa.me/5547999999999?text=Olá,+gostaria+de+comprar+o+Produto+4" target="_blank">Comprar</a>
-    </div>
-    <div class="produto">
-      <img src="https://via.placeholder.com/300x300" alt="Produto 5">
-      <h3>Produto 5</h3>
-      <p>R$ 159,90</p>
-      <a class="btn-comprar" href="https://wa.me/5547999999999?text=Olá,+gostaria+de+comprar+o+Produto+5" target="_blank">Comprar</a>
-    </div>
-    <div class="produto">
-      <img src="https://via.placeholder.com/300x300" alt="Produto 6">
-      <h3>Produto 6</h3>
-      <p>R$ 179,90</p>
-      <a class="btn-comprar" href="https://wa.me/5547999999999?text=Olá,+gostaria+de+comprar+o+Produto+6" target="_blank">Comprar</a>
-    </div>
-    <div class="produto">
-      <img src="https://via.placeholder.com/300x300" alt="Produto 7">
-      <h3>Produto 7</h3>
-      <p>R$ 209,90</p>
-      <a class="btn-comprar" href="https://wa.me/5547999999999?text=Olá,+gostaria+de+comprar+o+Produto+7" target="_blank">Comprar</a>
-    </div>
-    <div class="produto">
-      <img src="https://via.placeholder.com/300x300" alt="Produto 8">
-      <h3>Produto 8</h3>
-      <p>R$ 139,90</p>
-      <a class="btn-comprar" href="https://wa.me/5547999999999?text=Olá,+gostaria+de+comprar+o+Produto+8" target="_blank">Comprar</a>
-    </div>
-    <div class="produto">
-      <img src="https://via.placeholder.com/300x300" alt="Produto 9">
-      <h3>Produto 9</h3>
-      <p>R$ 229,90</p>
-      <a class="btn-comprar" href="https://wa.me/5547999999999?text=Olá,+gostaria+de+comprar+o+Produto+9" target="_blank">Comprar</a>
-    </div>
-    <div class="produto">
-      <img src="https://via.placeholder.com/300x300" alt="Produto 10">
-      <h3>Produto 10</h3>
-      <p>R$ 99,90</p>
-      <a class="btn-comprar" href="https://wa.me/5547999999999?text=Olá,+gostaria+de+comprar+o+Produto+10" target="_blank">Comprar</a>
-    </div>
-    <div class="produto">
-      <img src="https://via.placeholder.com/300x300" alt="Produto 11">
-      <h3>Produto 11</h3>
-      <p>R$ 249,90</p>
-      <a class="btn-comprar" href="https://wa.me/5547999999999?text=Olá,+gostaria+de+comprar+o+Produto+11" target="_blank">Comprar</a>
-    </div>
-    <div class="produto">
-      <img src="https://via.placeholder.com/300x300" alt="Produto 12">
-      <h3>Produto 12</h3>
-      <p>R$ 189,90</p>
-      <a class="btn-comprar" href="https://wa.me/5547999999999?text=Olá,+gostaria+de+comprar+o+Produto+12" target="_blank">Comprar</a>
+  <section class="hero">
+    <div id="heroBg" class="hero-bg" style="background-image:url('https://i.pinimg.com/1200x/b4/98/a6/b498a662b4ded394498aa9172abf8f90.jpg');"></div>
+    <div class="hero-inner">
+      <h2>Moda Streetwear com estilo</h2>
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer>
-    <p>© 2025 Streetwear Store - Todos os direitos reservados</p>
-    <p>Siga-nos:
-      <a href="https://www.instagram.com/streetwearstoretimbo/" target="_blank">Instagram</a> |
-      <a href="#">Facebook</a> |
-      <a href="#">TikTok</a>
-    </p>
+  <section id="camisas" class="secao container"><h2>Camisas</h2><div class="produtos" data-cat="camisas"></div></section>
+  <section id="casacos" class="secao container"><h2>Em breve</h2><div class="produtos" data-cat="casacos"></div></section>
+  <section id="bones" class="secao container"><h2>Em breve</h2><div class="produtos" data-cat="bones"></div></section>
+  <section id="calcas" class="secao container"><h2>Em breve</h2><div class="produtos" data-cat="calcas"></div></section>
+
+  <footer id="contato">
+    <div class="container">
+      <p>© 2025 Streetwear Store - Todos os direitos reservados</p>
+      <p>Siga-nos: <a href="https://www.instagram.com/streetwearstoretimbo/" target="_blank">Instagram</a> | <a href="https://api.whatsapp.com/send/?phone=5547991890250" target="_blank">WhatsApp</a></p>
+    </div>
   </footer>
 
-  <!-- SCRIPT MENU -->
-  <script>
-    function openMenu() {
-      document.getElementById("sideMenu").style.width = "250px";
-    }
-    function closeMenu() {
-      document.getElementById("sideMenu").style.width = "0";
-    }
-  </script>
+  <div id="adminPanel">
+    <h3 style="text-align:center;margin-top:0">Painel Admin</h3>
+    <input type="password" id="senhaAdmin" placeholder="Senha" style="width:100%;padding:8px;border-radius:8px;border:none;margin-bottom:8px;background:#0f0f0f;color:#ddd" />
+    <button class="btn" onclick="loginAdmin()" style="width:100%">Entrar</button>
+    <div id="adminContent" style="display:none;margin-top:12px">
+      <input id="nomeProduto" placeholder="Nome do Produto" />
+      <input id="precoProduto" placeholder="Preço (R$)" />
+      <label style="font-size:12px;color:var(--muted);margin-bottom:6px;display:block">Imagem (Frente)</label>
+      <input id="imgProduto" type="file" accept="image/*" />
+      <label style="font-size:12px;color:var(--muted);margin-bottom:6px;display:block">Imagem (Verso) — opcional</label>
+      <input id="imgProduto2" type="file" accept="image/*" />
+      <select id="categoriaProduto">
+        <option value="camisas">Camisas</option>
+        <option value="casacos">Casacos</option>
+        <option value="bones">Bonés</option>
+        <option value="calcas">Calças</option>
+      </select>
+      <textarea id="descricaoProduto" placeholder="Descrição do Produto"></textarea>
+      <button class="btn" onclick="adicionarProduto()">Adicionar Produto</button>
+      <h4 style="color:var(--muted)">Produtos cadastrados:</h4>
+      <div id="produtosAdmin" style="color:#ddd"></div>
+    </div>
+  </div>
 
+  <!-- Modal: ver detalhes (com botão × no topo direito) -->
+<div id="modalDetalhes">
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <div class="glow" aria-hidden="true"></div>
+    <!-- botão de fechar no canto superior direito -->
+    <span class="modal-close" onclick="fecharModal()">&times;</span>
+
+    <!-- slider interno -->
+    <div class="modal-slider" id="modalSlider" aria-hidden="false">
+      <div class="modal-slides" id="modalSlides">
+        <!-- imagens serão injetadas aqui -->
+      </div>
+      <button class="modal-arrow left" id="modalPrev" onclick="slide(-1)">‹</button>
+      <button class="modal-arrow right" id="modalNext" onclick="slide(1)">›</button>
+    </div>
+
+    <!-- bolinhas de navegação -->
+    <div class="modal-dots" id="modalDots" aria-hidden="false"></div>
+
+    <!-- conteúdo de texto -->
+    <h3 id="modalNome"></h3>
+    <img id="modalImgHidden" src="" alt="" style="display:none" />
+    <p id="modalPreco"></p>
+    <p id="modalDescricao"></p> <!-- linha branca sólida aplicada via CSS acima -->
+
+    <!-- botão de compra -->
+    <div style="margin-top:12px;text-align:center">
+      <a id="modalComprar" class="btn btn-modal" target="_blank">Comprar</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const API_URL = 'https://68ea642bf1eeb3f856e71db2.mockapi.io/produtos';
+
+const sideMenu = document.getElementById('sideMenu');
+function openMenu(){ sideMenu.classList.add('open'); }
+function closeMenu(){ sideMenu.classList.remove('open'); }
+
+// clique secreto no logo (3x)
+const logo = document.getElementById('logoSWS');
+let clickCount = 0;
+if (logo) {
+  logo.addEventListener('click', ()=>{
+    clickCount++;
+    if(clickCount === 3){
+      toggleAdminPanel();
+      clickCount = 0;
+    }
+    setTimeout(()=>{ clickCount = 0; }, 800);
+  });
+}
+
+const adminPanel = document.getElementById('adminPanel');
+function toggleAdminPanel(){
+  adminPanel.style.display = adminPanel.style.display === 'block' ? 'none' : 'block';
+}
+
+function loginAdmin(){
+  const senha = document.getElementById('senhaAdmin').value;
+  if(senha === '160527'){
+    document.getElementById('adminContent').style.display = 'block';
+    carregarProdutosAdmin();
+    alert('Bem-vindo, Admin!');
+  } else {
+    alert('Senha incorreta');
+  }
+}
+
+function showLoader(target){ target.innerHTML = '<div style="display:flex;gap:10px;align-items:center"><div class="loader"></div><span style="color:var(--muted)">Carregando</span></div>'; }
+
+function carregarProdutosParaVisitar(){
+  const categorias = ['camisas','casacos','bones','calcas'];
+  categorias.forEach(cat => {
+    const el = document.querySelector(`#${cat} .produtos`);
+    if(el) showLoader(el);
+  });
+  fetch(API_URL).then(r=>r.json()).then(renderizarProdutos).catch(err=>{
+    const categorias2 = ['camisas','casacos','bones','calcas'];
+    categorias2.forEach(cat => {
+      const el = document.querySelector(`#${cat} .produtos`);
+      if(el) el.innerHTML = '';
+    });
+    console.error(err);
+  });
+}
+
+let produtosObserver = null;
+function observeProdutos() {
+  if (produtosObserver) produtosObserver.disconnect();
+
+  produtosObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        produtosObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.18 });
+
+  document.querySelectorAll('.produto').forEach(p => produtosObserver.observe(p));
+}
+
+function renderizarProdutos(produtos){
+  const categorias = ['camisas','casacos','bones','calcas'];
+  categorias.forEach(cat => {
+    const el = document.querySelector(`#${cat} .produtos`);
+    if(el) el.innerHTML = '';
+  });
+
+  produtos.forEach(p=>{
+    const container = document.querySelector(`#${p.categoria} .produtos`);
+    if(!container) return;
+    const div = document.createElement('div');
+    div.className='produto';
+    const imgFront = p.imgSrc || '';
+    const imgBack = p.imgSrc2 || '';
+    const safeName = (p.nome+'').replace(/'/g,"\\'").replace(/"/g,'\\"');
+
+    div.innerHTML=`
+      <img src="${imgFront}" alt="${p.nome}" />
+      <div class="overlay">
+        <button class="btn" onclick="abrirModal('${safeName}','${p.preco}','${encodeURIComponent(p.descricao||'')}','${encodeURIComponent(imgFront)}','${encodeURIComponent(imgBack)}')">Ver detalhes</button>
+        <a class="btn" href="https://wa.me/5547991890250?text=Olá,+gostaria+de+comprar+${encodeURIComponent(p.nome)}" target="_blank">Comprar</a>
+      </div>
+      <div class="info"><h3>${p.nome}</h3><p>R$ ${p.preco}</p></div>`;
+    div.addEventListener('click', e=>{
+      if(e.target.closest('button')||e.target.closest('a')) return;
+      div.classList.toggle('active');
+    });
+    container.appendChild(div);
+  });
+
+  observeProdutos();
+}
+
+// --- Modal + slider logic ---
+const modal = document.getElementById('modalDetalhes');
+const slidesWrap = document.getElementById('modalSlides');
+const dotsWrap = document.getElementById('modalDots');
+let slideIndex = 0;
+let totalSlides = 0;
+
+function abrirModal(nome, preco, descE, imgFrontE, imgBackE){
+  const desc = decodeURIComponent(descE || '');
+  const imgFront = decodeURIComponent(imgFrontE || '');
+  const imgBack = decodeURIComponent(imgBackE || '');
+
+  slidesWrap.innerHTML = '';
+  dotsWrap.innerHTML = '';
+  const imgs = [];
+  if(imgFront) imgs.push(imgFront);
+  if(imgBack && imgBack !== '' && imgBack !== imgFront) imgs.push(imgBack);
+
+  totalSlides = imgs.length || 1;
+  slideIndex = 0;
+  slidesWrap.style.width = (totalSlides * 100) + '%';
+
+  imgs.forEach(src=>{
+    const imgEl = document.createElement('img');
+    imgEl.style.width = (100 / totalSlides) + '%';
+    imgEl.style.height = '360px';
+    imgEl.src = src;
+    slidesWrap.appendChild(imgEl);
+  });
+  updateSlidePosition();
+
+  for(let i=0;i<totalSlides;i++){
+    const d = document.createElement('div');
+    d.className = 'modal-dot' + (i===0 ? ' active' : '');
+    d.addEventListener('click', ()=>{ slideIndex=i; updateSlidePosition(); });
+    dotsWrap.appendChild(d);
+  }
+
+  document.getElementById('modalNome').innerText = nome;
+  document.getElementById('modalPreco').innerText = 'R$ '+preco;
+  document.getElementById('modalDescricao').innerText = desc;
+  document.getElementById('modalComprar').href = 'https://wa.me/5547991890250?text=Olá,+gostaria+de+comprar+'+encodeURIComponent(nome);
+
+  modal.classList.add('active');
+  document.getElementById('modalPrev').style.display = (totalSlides>1) ? 'flex' : 'none';
+  document.getElementById('modalNext').style.display = (totalSlides>1) ? 'flex' : 'none';
+}
+
+function fecharModal(){ modal.classList.remove('active'); }
+
+function slide(dir){
+  if(totalSlides <= 1) return;
+  slideIndex = (slideIndex + dir + totalSlides) % totalSlides;
+  updateSlidePosition();
+}
+
+function updateSlidePosition(){
+  const percent = -(slideIndex * (100 / totalSlides));
+  slidesWrap.style.transform = `translateX(${percent}%)`;
+  const dots = dotsWrap.querySelectorAll('.modal-dot');
+  dots.forEach((d,i)=> d.classList.toggle('active', i===slideIndex));
+}
+
+// --- compressImage & admin logic (mantidos iguais) ---
+function compressImage(file, maxWidth = 600, quality = 0.5) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const scale = Math.min(maxWidth / img.width, 1);
+        canvas.width = img.width * scale;
+        canvas.height = img.height * scale;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+async function adicionarProduto(){
+  const nome=document.getElementById('nomeProduto').value.trim();
+  const preco=document.getElementById('precoProduto').value.trim();
+  const cat=document.getElementById('categoriaProduto').value;
+  const desc=document.getElementById('descricaoProduto').value.trim();
+  const file1=document.getElementById('imgProduto').files[0];
+  const file2=document.getElementById('imgProduto2') ? document.getElementById('imgProduto2').files[0] : null;
+
+  if(!nome||!preco||!file1){ alert('Preencha todos os campos e escolha a imagem principal (frente)'); return; }
+
+  const imgSrc = await compressImage(file1);
+  const imgSrc2 = file2 ? await compressImage(file2) : null;
+  salvarProduto(nome,preco,cat,desc,imgSrc,imgSrc2);
+}
+
+function salvarProduto(nome,preco,categoria,descricao,imgSrc,imgSrc2){
+  const payload = { nome, preco, categoria, descricao, imgSrc };
+  if(imgSrc2) payload.imgSrc2 = imgSrc2;
+  fetch(API_URL, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(payload) })
+    .then(r=>r.json())
+    .then(()=> {
+      alert('Produto adicionado com sucesso!');
+      carregarProdutosAdmin();
+      carregarProdutosParaVisitar();
+    })
+    .catch(err=>{
+      console.error(err);
+      alert('Erro ao adicionar produto');
+    });
+}
+
+function carregarProdutosAdmin(){
+  const lista=document.getElementById('produtosAdmin');
+  showLoader(lista);
+  fetch(API_URL).then(r=>r.json()).then(data=>{
+    lista.innerHTML='';
+    data.forEach(p=>{
+      const div=document.createElement('div');
+      div.style.borderBottom='1px solid rgba(255,255,255,0.05)';
+      div.style.padding='6px 0';
+      div.innerHTML=`<b>${p.nome}</b> - R$ ${p.preco} <button onclick="excluirProduto(${p.id})" style="float:right;background:none;border:none;color:#f55;cursor:pointer">x</button>`;
+      lista.appendChild(div);
+    });
+  }).catch(err=>{ lista.innerHTML='Erro ao carregar'; console.error(err); });
+}
+
+function excluirProduto(id){
+  if(!confirm('Excluir produto?')) return;
+  fetch(API_URL+'/'+id,{method:'DELETE'}).then(()=>{ carregarProdutosAdmin(); carregarProdutosParaVisitar(); }).catch(err=>{ console.error(err); alert('Erro ao excluir'); });
+}
+
+// inicialização
+carregarProdutosParaVisitar();
+</script>
 </body>
 </html>
